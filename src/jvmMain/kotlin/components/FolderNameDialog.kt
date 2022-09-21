@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,6 +17,7 @@ import home.ImageState
 @Composable
 fun FolderNameDialog(imageState: ImageState){
 
+    val scope = rememberCoroutineScope()
 
     AnimatedVisibility(imageState.isDialogVisible) {
         Column(
@@ -47,7 +49,7 @@ fun FolderNameDialog(imageState: ImageState){
                             Text("CANCEL")
                         }
                         Button(onClick = {
-                            imageState.saveSelections()
+                            imageState.saveSelections(scope)
                         }){
                             Text("SUBMIT")
                         }

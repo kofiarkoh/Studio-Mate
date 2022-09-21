@@ -5,9 +5,11 @@ package home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -46,7 +48,7 @@ fun FullImagePreview(imagesState:ImageState){
          painter = BitmapPainter(imagesState.loadedImages[imagesState.currentIndex].raw),
          contentDescription = "contentDescription",
          contentScale = ContentScale.Fit,
-         modifier = Modifier.width(500.dp).rotate(270.0f)
+         modifier = Modifier.width(500.dp).rotate(270.0f).clip(RoundedCornerShape(5.dp))
       )
    }
 

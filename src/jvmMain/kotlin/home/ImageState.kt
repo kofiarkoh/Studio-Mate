@@ -2,6 +2,9 @@ package home
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.ImageBitmap
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import util.LoadedImages
 import util.copySelectedImagesToDisk
 
@@ -34,16 +37,24 @@ class ImageState {
         selectedImages.removeAt(index)
     }
 
-    fun saveSelections(){
+    fun saveSelections(scope:CoroutineScope){
 
         // hide dialog first
         isDialogVisible = false
-        copySelectedImagesToDisk(selectedImages,imagesDirectory,folderToSaveName)
+        scope.launch(Dispatchers.IO) {
+            copySelectedImagesToDisk(selectedImages,imagesDirectory,folderToSaveName)
+
+            selectedImages.clear()
+            folderToSaveName = ""
+        }
     }
 
     fun setIndexBySelectedImage(image: LoadedImages){
         currentIndex = loadedImages.indexOf(image)
 
+    }
+
+    fun onCopySucess(){
 
     }
 }

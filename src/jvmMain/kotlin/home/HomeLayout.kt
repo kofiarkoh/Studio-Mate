@@ -12,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
@@ -66,12 +67,12 @@ fun HomeLayout(){
 
                 //ThumbnailRowItem(imagesState,i,image)
                     Image(image.compressed,contentDescription = "ds",
-                       // contentScale = ContentScale.FillBounds,
+                       contentScale = ContentScale.Fit,
                         modifier = Modifier.
                         rotate(270.0f).fillParentMaxHeight()
+                            .padding(10.dp)
 
-                            .border(2.dp,Color.Transparent, RoundedCornerShape(5.dp)) .padding(5.dp)
-
+                            .clip(RoundedCornerShape(10.dp))
                             .clickable {
                                 imagesState.currentIndex = i
                             }
