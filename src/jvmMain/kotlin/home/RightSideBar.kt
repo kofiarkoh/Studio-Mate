@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.BlendMode.Companion.Color
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -45,7 +46,23 @@ fun RightSideBar(imagesState: ImageState) {
                 // display folder name dialog
                 imagesState.isDialogVisible = true
             }) {
-                Text("CLEAR")
+                Text("RESET")
+            }
+        }
+
+        Row(modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp, horizontal = 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Text("SELECTED PHOTOS", fontWeight = FontWeight.Black ,
+                color = Color(50,50,50))
+
+            TextButton(onClick = {
+
+            },
+                colors = ButtonDefaults.buttonColors(backgroundColor = androidx.compose.ui.graphics.Color.LightGray)
+            ) {
+                Text("CLEAR SELECTIONS", color = androidx.compose.ui.graphics.Color.Red.copy(.7f))
             }
         }
         LazyVerticalGrid(cells = GridCells.Adaptive(minSize = 180.dp)) {

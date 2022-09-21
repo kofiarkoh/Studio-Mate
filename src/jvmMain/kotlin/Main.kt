@@ -8,15 +8,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import home.HomeLayout
+import java.awt.Dimension
 
 
 fun main() = application {
-    Window(onCloseRequest = ::exitApplication) {
+
+    Window(onCloseRequest = ::exitApplication,
+
+    ) {
+        setMinSize()
         HomeLayout()
     }
+
 }
 
 
+
+fun FrameWindowScope.setMinSize() {
+    window.minimumSize = Dimension(1200, 800)
+}
