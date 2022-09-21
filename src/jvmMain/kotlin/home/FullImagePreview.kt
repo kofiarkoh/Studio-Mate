@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import util.AsyncImage
+
 import util.loadImageBitmap
 import util.loadImagesFromDirectory
 import java.io.File

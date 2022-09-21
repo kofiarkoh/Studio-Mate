@@ -11,6 +11,7 @@ class ImageState {
     val loadedImages = mutableStateListOf<LoadedImages>()
     val selectedImages = mutableStateListOf<LoadedImages>()
     var currentIndex by mutableStateOf(0)
+    var isDialogVisible by mutableStateOf(false)
 
 
     fun addImageToSelections(index:Int){
@@ -34,6 +35,9 @@ class ImageState {
     }
 
     fun saveSelections(){
+
+        // hide dialog first
+        isDialogVisible = false
         copySelectedImagesToDisk(selectedImages,imagesDirectory,folderToSaveName)
     }
 

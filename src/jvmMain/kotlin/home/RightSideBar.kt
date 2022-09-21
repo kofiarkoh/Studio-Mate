@@ -32,7 +32,8 @@ fun RightSideBar(imagesState: ImageState){
                }
 
                Button(onClick = {
-                   imagesState.saveSelections()
+                  // display folder name dialog
+                   imagesState.isDialogVisible = true
                }){
                    Text("SAVE")
                }
