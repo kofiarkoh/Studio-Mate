@@ -22,23 +22,47 @@ suspend fun loadImagesFromDirectory(
 
     val job = scope.launch {
 
-        listOfFiles.forEach {
+        listOfFiles.forEachIndexed(){index ,it->
             println("found file ${it.absoluteFile}")
-            if (it.absolutePath.endsWith(".CR2") || it.absolutePath.endsWith(".jpg")) {
-                println(it.absolutePath)
-                withContext(Dispatchers.IO) {
-                    val resizedImage = ImageConverter.getThumbnail(it)
-                    val im = loadImageBitmap(it)
 
-                    imageBitmaps.add(
-                        LoadedImages(
-                            resizedImage,
-                            im, fileName = it.name.replace("_PreviewImage.jpg", ""),
-                            fileExt = it.extension,
-                            filePath = it.absolutePath
-                        )
-                    )
+
+            if(index%9  == 0){
+                launch(Dispatchers.IO) {
+                    if (it.absolutePath.endsWith(".CR2") || it.absolutePath.endsWith(".jpg")) {
+                        println(it.absolutePath)
+                        withContext(Dispatchers.IO) {
+                            val resizedImage = ImageConverter.getThumbnail(it)
+                            val im = loadImageBitmap(it)
+
+                            imageBitmaps.add(
+                                LoadedImages(
+                                    resizedImage,
+                                    im, fileName = it.name.replace("_PreviewImage.jpg", ""),
+                                    fileExt = it.extension,
+                                    filePath = it.absolutePath
+                                )
+                            )
+                        }
+                    }
                 }
+            }else{
+
+                    println(it.absolutePath)
+                    withContext(Dispatchers.IO) {
+                        val resizedImage = ImageConverter.getThumbnail(it)
+                        val im = loadImageBitmap(it)
+
+                        imageBitmaps.add(
+                            LoadedImages(
+                                resizedImage,
+                                im, fileName = it.name.replace("_PreviewImage.jpg", ""),
+                                fileExt = it.extension,
+                                filePath = it.absolutePath
+                            )
+                        )
+                    }
+
+
             }
 
         }
