@@ -12,17 +12,28 @@ import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import home.HomeLayout
+import home.setDropTarget
 import java.awt.Dimension
+import java.awt.datatransfer.DataFlavor
+import java.awt.dnd.DnDConstants
+import java.awt.dnd.DropTarget
+import java.awt.dnd.DropTargetDropEvent
 
 
 fun main() = application {
+
+
+
 
     Window(onCloseRequest = ::exitApplication,
 
     ) {
         setMinSize()
         HomeLayout()
+
+
     }
+
 
 }
 

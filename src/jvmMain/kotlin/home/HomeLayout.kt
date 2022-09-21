@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.sun.jdi.connect.LaunchingConnector
 import components.FolderNameDialog
+import java.io.File
+import java.nio.file.Files
 
 @Composable
 fun HomeLayout(){
@@ -34,6 +36,7 @@ fun HomeLayout(){
     Column(modifier = Modifier.fillMaxHeight().fillMaxWidth()) {
 
         Row(modifier = Modifier.weight(.75f,true)
+            .background(Color(200, 200, 200))
             .border(2.dp, Color.Transparent)){
 
             Column(
@@ -90,11 +93,17 @@ fun HomeLayout(){
 }
 
 
-fun runCMD(){
-    val cache = "/Users/lawrence/Pictures/Law/mycache/two"
+fun runCMD(sourceDir:String): Process? {
+    val cache = "/Users/lawrence/Pictures/Law/mycache"
     val dir = "/Users/lawrence/Pictures/Law/test3"
-    val cmd  = "exiftool -a -b -W /Users/lawrence/Pictures/Law/mycache/two/%f_%t%-c.%s -preview:PreviewImage ${dir}";
+    Files.walk(File(cache).toPath())
+        .filter { Files.isRegularFile(it) }
+        .map { it.toFile() }
+        .forEach { it.delete() }
+    val cmd  = "exiftool -a -b -W /Users/lawrence/Pictures/Law/mycache/%f_%t%-c.%s -preview:PreviewImage ${sourceDir}";
     println(cmd)
-  Runtime.getRuntime().exec(cmd)
+    println("command run finish")
+    return Runtime.getRuntime().exec(cmd)
+
 }
 

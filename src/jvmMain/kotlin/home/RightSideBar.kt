@@ -32,21 +32,31 @@ fun RightSideBar(imagesState: ImageState) {
         ) {
             Button(onClick = {
                 imagesState.addImageToSelections(imagesState.currentIndex)
-            }) {
-                Text("SELECT")
+            },
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(35, 12, 187))
+
+            ) {
+                Text("SELECT",color= androidx.compose.ui.graphics.Color.White)
             }
 
             Button(onClick = {
                 // display folder name dialog
                 imagesState.isDialogVisible = true
-            }) {
-                Text("SAVE")
+            },
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(8, 134, 53))
+
+            ) {
+                Text("SAVE",color= androidx.compose.ui.graphics.Color.White)
             }
             Button(onClick = {
                 // display folder name dialog
-                imagesState.isDialogVisible = true
-            }) {
-                Text("RESET")
+                imagesState.loadedImages.clear()
+                imagesState.selectedImages.clear()
+            },
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(134, 24, 53))
+
+            ) {
+                Text("RESET",color= androidx.compose.ui.graphics.Color.White)
             }
         }
 
