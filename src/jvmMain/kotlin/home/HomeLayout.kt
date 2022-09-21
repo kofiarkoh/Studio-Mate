@@ -33,11 +33,11 @@ fun HomeLayout(){
 
     Column(modifier = Modifier.fillMaxHeight().fillMaxWidth()) {
 
-        Row(modifier = Modifier.weight(.75f,true).border(2.dp, Color.Transparent)){
+        Row(modifier = Modifier.weight(.75f,true)
+            .border(2.dp, Color.Transparent)){
 
             Column(
                 modifier = Modifier.weight(.7f,true)
-                    .border(2.dp, Color.Black)
                   //  .background(Color.Black)
                     .fillMaxHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -46,6 +46,8 @@ fun HomeLayout(){
 
                 FullImagePreview(imagesState)
             }
+            Divider(modifier = Modifier.width(2.dp).fillMaxHeight(),
+                color = Color(60, 60, 60), thickness = 5.dp)
             Column(
                 modifier = Modifier.weight(.3f,true)
                     .fillMaxHeight()
@@ -57,8 +59,10 @@ fun HomeLayout(){
 
         LazyRow(
             modifier = Modifier
-                .border(0.dp, Color.Yellow)
-                .weight(.25f,true).fillMaxHeight().fillMaxWidth(),
+
+                .weight(.25f,true).fillMaxHeight().fillMaxWidth().
+                    background(Color(60, 60, 60))
+            ,
             contentPadding = PaddingValues(horizontal = 25.dp)
 
         ) {

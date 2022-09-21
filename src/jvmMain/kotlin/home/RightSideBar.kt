@@ -21,11 +21,14 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun RightSideBar(imagesState: ImageState) {
     Column(
-        modifier = Modifier.padding(horizontal = 10.dp).fillMaxWidth()
+        modifier = Modifier.padding(horizontal = 0.dp).fillMaxWidth()
 
     ) {
 
-        Row(modifier = Modifier.background(androidx.compose.ui.graphics.Color.Gray).fillMaxWidth()) {
+        Row(
+            modifier = Modifier.background(Color(200, 200, 200)).fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
             Button(onClick = {
                 imagesState.addImageToSelections(imagesState.currentIndex)
             }) {
@@ -37,6 +40,12 @@ fun RightSideBar(imagesState: ImageState) {
                 imagesState.isDialogVisible = true
             }) {
                 Text("SAVE")
+            }
+            Button(onClick = {
+                // display folder name dialog
+                imagesState.isDialogVisible = true
+            }) {
+                Text("CLEAR")
             }
         }
         LazyVerticalGrid(cells = GridCells.Adaptive(minSize = 180.dp)) {

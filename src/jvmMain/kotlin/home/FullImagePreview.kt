@@ -34,7 +34,7 @@ fun FullImagePreview(imagesState:ImageState){
       scope.launch {
 
       val allImages =   loadImagesFromDirectory(scope)
-         imagesState.loadedImages.addAll(allImages)
+          imagesState.loadedImages.addAll(allImages)
       }
       /*scope.launch {
         val im = loadImageBitmap(File("/Users/lawrence/Pictures/Law/IMG_0776.jpg"))
