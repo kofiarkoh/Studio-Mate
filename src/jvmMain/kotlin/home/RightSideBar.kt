@@ -19,60 +19,56 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun RightSideBar(imagesState: ImageState){
-    Column(modifier= Modifier.padding(horizontal = 10.dp).fillMaxWidth()
-       // .verticalScroll(rememberScrollState())
-    ){
-      // stickyHeader {
-           Row(modifier = Modifier.background(androidx.compose.ui.graphics.Color.Gray).fillMaxWidth()) {
-               Button(onClick = {
-                   imagesState.addImageToSelections(imagesState.currentIndex)
-               }){
-                   Text("SELECT")
-               }
+fun RightSideBar(imagesState: ImageState) {
+    Column(
+        modifier = Modifier.padding(horizontal = 10.dp).fillMaxWidth()
 
-               Button(onClick = {
-                  // display folder name dialog
-                   imagesState.isDialogVisible = true
-               }){
-                   Text("SAVE")
-               }
-           }
-      // }
+    ) {
 
-       // item(){
+        Row(modifier = Modifier.background(androidx.compose.ui.graphics.Color.Gray).fillMaxWidth()) {
+            Button(onClick = {
+                imagesState.addImageToSelections(imagesState.currentIndex)
+            }) {
+                Text("SELECT")
+            }
 
-            LazyVerticalGrid(cells = GridCells.Adaptive(minSize = 180.dp)){
-                itemsIndexed(imagesState.selectedImages){i,item ->
-                    Card(modifier=Modifier.padding(10.dp), elevation = 5.dp) {
-                        Row(modifier = Modifier.width(150.dp).padding(5.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
+            Button(onClick = {
+                // display folder name dialog
+                imagesState.isDialogVisible = true
+            }) {
+                Text("SAVE")
+            }
+        }
+        LazyVerticalGrid(cells = GridCells.Adaptive(minSize = 180.dp)) {
+            itemsIndexed(imagesState.selectedImages) { i, item ->
+                Card(modifier = Modifier.padding(10.dp), elevation = 5.dp) {
+                    Row(
+                        modifier = Modifier.width(150.dp).padding(5.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        TextButton(
+                            onClick = {
+                                imagesState.setIndexBySelectedImage(item)
+                            }
                         ) {
-                            TextButton(
-                                onClick = {
-                                    imagesState.setIndexBySelectedImage(item)
-                                }
-                            ){
-                                Text("${i+1}. ${item.fileName}")
-                            }
+                            Text("${i + 1}. ${item.fileName}")
+                        }
 
-                            IconButton(onClick = {
-                                imagesState.removeImageFromSelections(i)
-                            }){
-                                Icon(Icons.Default.Delete,"remove photo",
-                                    tint = androidx.compose.ui.graphics.Color.Red
-                                )
-                            }
+                        IconButton(onClick = {
+                            imagesState.removeImageFromSelections(i)
+                        }) {
+                            Icon(
+                                Icons.Default.Delete, "remove photo",
+                                tint = androidx.compose.ui.graphics.Color.Red
+                            )
                         }
                     }
                 }
-
             }
 
+        }
 
-
-      //  }
 
     }
 }
