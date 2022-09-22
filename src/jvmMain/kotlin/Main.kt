@@ -21,11 +21,8 @@ import java.awt.dnd.DropTargetDropEvent
 
 
 fun main() = application {
-
-
-
-
     Window(onCloseRequest = ::exitApplication,
+        title = "Studio Mate"
 
     ) {
         setMinSize()

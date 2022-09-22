@@ -28,7 +28,7 @@ fun FolderPicker(imageState: ImageState) {
 
     fun pickFolder() {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
-        val fileChooser = JFileChooser("/").apply {
+        val fileChooser = JFileChooser("/Users/lawrence/Pictures/Law").apply {
             fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
             dialogTitle = "Select a folder"
             approveButtonText = "Select"

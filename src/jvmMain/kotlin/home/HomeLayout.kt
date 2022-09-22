@@ -36,7 +36,7 @@ fun HomeLayout(){
     Column(modifier = Modifier.fillMaxHeight().fillMaxWidth()) {
 
         Row(modifier = Modifier.weight(.75f,true)
-            .background(Color(200, 200, 200))
+            .background(Color(31, 32, 39))
             .border(2.dp, Color.Transparent)){
 
             Column(

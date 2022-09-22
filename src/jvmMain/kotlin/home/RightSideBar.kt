@@ -1,22 +1,25 @@
 package home
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode.Companion.Color
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import components.AppButton
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -26,60 +29,34 @@ fun RightSideBar(imagesState: ImageState) {
 
     ) {
 
+
         Row(
-            modifier = Modifier.background(Color(200, 200, 200)).fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Button(onClick = {
-                imagesState.addImageToSelections(imagesState.currentIndex)
-            },
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(35, 12, 187))
-
-            ) {
-                Text("SELECT",color= androidx.compose.ui.graphics.Color.White)
-            }
-
-            Button(onClick = {
-                // display folder name dialog
-                imagesState.isDialogVisible = true
-            },
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(8, 134, 53))
-
-            ) {
-                Text("SAVE",color= androidx.compose.ui.graphics.Color.White)
-            }
-            Button(onClick = {
-                // display folder name dialog
-                imagesState.loadedImages.clear()
-                imagesState.selectedImages.clear()
-            },
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(134, 24, 53))
-
-            ) {
-                Text("RESET",color= androidx.compose.ui.graphics.Color.White)
-            }
-        }
-
-        Row(modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp, horizontal = 10.dp),
+            modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp, horizontal = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
-        ){
-            Text("SELECTED PHOTOS", fontWeight = FontWeight.Black ,
-                color = Color(50,50,50))
+        ) {
+            Text(
+                "Photos Selected", fontWeight = FontWeight.Light,
+                color = Color.White, fontSize = 20.sp
+            )
 
-            TextButton(onClick = {
+            AppButton(onclick = {
 
-            },
-                colors = ButtonDefaults.buttonColors(backgroundColor = androidx.compose.ui.graphics.Color.LightGray)
-            ) {
-                Text("CLEAR SELECTIONS", color = androidx.compose.ui.graphics.Color.Red.copy(.7f))
-            }
+            }, label = "Clear")
+
         }
-        LazyVerticalGrid(cells = GridCells.Adaptive(minSize = 180.dp)) {
+        LazyVerticalGrid(
+            cells = GridCells.Adaptive(minSize = 150.dp),
+            modifier = Modifier.weight(.7f)
+        ) {
             itemsIndexed(imagesState.selectedImages) { i, item ->
-                Card(modifier = Modifier.padding(10.dp), elevation = 5.dp) {
+                Card(modifier = Modifier.padding(10.dp), elevation = 5.dp,
+                    backgroundColor = Color.Transparent,
+                    border = BorderStroke(1.dp,Color.White),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
                     Row(
-                        modifier = Modifier.width(150.dp).padding(5.dp),
+                        modifier = Modifier.width(150.dp).padding(0.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
@@ -88,20 +65,42 @@ fun RightSideBar(imagesState: ImageState) {
                                 imagesState.setIndexBySelectedImage(item)
                             }
                         ) {
-                            Text("${i + 1}. ${item.fileName}")
+                            Text("${i + 1}. ${item.fileName}", color = Color.White)
                         }
 
                         IconButton(onClick = {
                             imagesState.removeImageFromSelections(i)
                         }) {
                             Icon(
-                                Icons.Default.Delete, "remove photo",
-                                tint = androidx.compose.ui.graphics.Color.Red
+                                Icons.Default.Close, "remove photo",
+                                tint = androidx.compose.ui.graphics.Color.White
                             )
                         }
                     }
                 }
             }
+
+        }
+
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+
+            AppButton(onclick = {
+                imagesState.addImageToSelections(imagesState.currentIndex)
+            }, label = "Select")
+            AppButton(onclick = {
+                // display folder name dialog
+                imagesState.isDialogVisible = true
+            }, label = "Save")
+            AppButton(onclick = {
+                // display folder name dialog
+                imagesState.loadedImages.clear()
+                imagesState.selectedImages.clear()
+            }, label = "Reset")
+
 
         }
 
