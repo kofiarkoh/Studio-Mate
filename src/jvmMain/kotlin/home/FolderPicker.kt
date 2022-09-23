@@ -22,13 +22,9 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import util.DsStoreFileFilter
-import util.loadImagesFromDirectory
 import util.loadImagesFromDirectoryWithFlow
-import java.io.File
 import javax.swing.JFileChooser
 import javax.swing.UIManager
-import kotlin.io.path.Path
-import kotlin.io.path.listDirectoryEntries
 
 @Composable
 fun FolderPicker(imageState: ImageState) {
@@ -39,7 +35,7 @@ fun FolderPicker(imageState: ImageState) {
     fun pickFolder() {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
         // /Users/lawrence/Pictures/Law/raws  System.getProperty("user.home","/")
-        val fileChooser = JFileChooser("/Users/lawrence/Pictures/Law").apply {
+        val fileChooser = JFileChooser( System.getProperty("user.home","/")).apply {
             fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
             dialogTitle = "Select a folder"
             approveButtonText = "Select"
@@ -61,7 +57,7 @@ fun FolderPicker(imageState: ImageState) {
         // directory pick successfull
         imageState.imagesDirectory = selectedDir.absolutePath
 
-       val job = scope.launch(Dispatchers.IO) {
+        val job = scope.launch(Dispatchers.IO) {
             /* generate previews using exiftool CLI
                 and wait for process to finish before reading from cache directory
              */
@@ -75,10 +71,10 @@ fun FolderPicker(imageState: ImageState) {
                 /*val allImages = loadImagesFromDirectory(scope, imageState.cacheFolder)
                 imageState.loadedImages.addAll(allImages)*/
 
-                  loadImagesFromDirectoryWithFlow(scope, imageState.cacheFolder).collect {item->
+                loadImagesFromDirectoryWithFlow(scope, imageState.cacheFolder).collect { item ->
                     imageState.loadedImages.add(item)
 
-                  }
+                }
                 //imageState.loadedImages.addAll(allImages)
 
             } catch (e: Exception) {
@@ -103,7 +99,11 @@ fun FolderPicker(imageState: ImageState) {
         verticalArrangement = Arrangement.Center
     ) {
 
-        Text("Loading Photos... ${imageState.loadedImages.size} of ${imageState.totalImagesToLoad} ", color = Color.White, modifier = Modifier.padding(20.dp))
+        Text(
+            "Loading Photos... ${imageState.loadedImages.size} of ${imageState.totalImagesToLoad} ",
+            color = Color.White,
+            modifier = Modifier.padding(20.dp)
+        )
         Button(
             onClick = {
                 pickFolder()

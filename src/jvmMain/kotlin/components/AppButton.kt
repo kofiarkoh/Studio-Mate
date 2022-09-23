@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 fun AppButton(
     label: String,
     onclick: () -> Unit,
-    borderColor :Color = Color(255, 255, 255)
+    borderColor: Color = Color(255, 255, 255)
 ) {
 
     OutlinedButton(

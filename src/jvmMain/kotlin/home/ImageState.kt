@@ -5,7 +5,6 @@ import components.Notification
 import kotlinx.coroutines.*
 import util.LoadedImages
 import util.copySelectedImagesToDisk
-import kotlin.coroutines.coroutineContext
 
 class ImageState {
     val cacheFolder = "/Users/lawrence/Pictures/Law/mycache"
@@ -15,8 +14,8 @@ class ImageState {
     val selectedImages = mutableStateListOf<LoadedImages>()
     var currentIndex by mutableStateOf(0)
     var isDialogVisible by mutableStateOf(false)
-    var isNotificationVisible =  mutableStateOf(false)
-    var notification by  mutableStateOf(Notification())
+    var isNotificationVisible = mutableStateOf(false)
+    var notification by mutableStateOf(Notification())
     var totalImagesToLoad by mutableStateOf(0)
 
 
@@ -43,13 +42,13 @@ class ImageState {
 
         // validate folder name
         val folderNameRegex = Regex("\\W")
-        if(folderNameRegex.matches(folderToSaveName)){
+        if (folderNameRegex.matches(folderToSaveName)) {
             scope.launch {
                 sendNotification("Folder name can only be letters and numbers.")
             }
             return
         }
-        if(folderToSaveName.length < 2) {
+        if (folderToSaveName.length < 2) {
             scope.launch {
                 sendNotification("Folder name must be at least 2 characters.")
             }
@@ -65,8 +64,7 @@ class ImageState {
                 selectedImages.clear()
                 folderToSaveName = ""
                 sendNotification("Photos has been saved successfully")
-            }
-            catch (e:Exception){
+            } catch (e: Exception) {
                 sendNotification(
                     e.message ?: "Photos could not be saved to disk."
                 )
@@ -84,7 +82,7 @@ class ImageState {
 
     }
 
-    suspend fun sendNotification(msg:String){
+    suspend fun sendNotification(msg: String) {
         /* set and hide notification after 5 seconds
         * */
         coroutineScope {

@@ -44,6 +44,7 @@ fun RightSideBar(imagesState: ImageState) {
 
             AppButton(onclick = {
 
+                imagesState.selectedImages.clear()
             }, label = "Clear")
 
         }
@@ -100,9 +101,9 @@ fun RightSideBar(imagesState: ImageState) {
                 // display folder name dialog
                 if (imagesState.selectedImages.isEmpty()) {
                     scope.launch {
-                       // imagesState.sendNotification("You have not selected any photos yet!")
+                        imagesState.sendNotification("You have not selected any photos yet!")
                     }
-                  //  return@AppButton
+                    return@AppButton
                 }
                 imagesState.isDialogVisible = true
             }, label = "Save")
@@ -110,6 +111,7 @@ fun RightSideBar(imagesState: ImageState) {
                 // display folder name dialog
                 imagesState.loadedImages.clear()
                 imagesState.selectedImages.clear()
+                imagesState.totalImagesToLoad = 0
             }, label = "Reset")
 
 
