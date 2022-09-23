@@ -15,9 +15,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import components.AppButton
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import util.loadImagesFromDirectory
+import util.loadImagesFromDirectoryWithFlow
+import java.io.File
 import javax.swing.JFileChooser
 import javax.swing.UIManager
 
@@ -25,10 +31,12 @@ import javax.swing.UIManager
 fun FolderPicker(imageState: ImageState) {
 
     val scope = rememberCoroutineScope()
+    var imageLoadingJob: Job? = null
 
     fun pickFolder() {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
-        val fileChooser = JFileChooser(System.getProperty("user.home","/")).apply {
+        // /Users/lawrence/Pictures/Law/raws  System.getProperty("user.home","/")
+        val fileChooser = JFileChooser("/Users/lawrence/Pictures/Law").apply {
             fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
             dialogTitle = "Select a folder"
             approveButtonText = "Select"
@@ -50,16 +58,26 @@ fun FolderPicker(imageState: ImageState) {
         // directory pick successfull
         imageState.imagesDirectory = selectedDir.absolutePath
 
-        scope.launch(Dispatchers.IO) {
+       val job = scope.launch(Dispatchers.IO) {
             /* generate previews using exiftool CLI
                 and wait for process to finish before reading from cache directory
              */
             try {
+                //get num of files in dir
+                val numOfFiles = selectedDir.listFiles().size - 1
+                imageState.totalImagesToLoad = numOfFiles
                 val process: Process? = runCMD(selectedDir.absolutePath)
                 process?.waitFor()
 
-                val allImages = loadImagesFromDirectory(scope, imageState.cacheFolder)
-                imageState.loadedImages.addAll(allImages)
+                /*val allImages = loadImagesFromDirectory(scope, imageState.cacheFolder)
+                imageState.loadedImages.addAll(allImages)*/
+
+                  loadImagesFromDirectoryWithFlow(scope, imageState.cacheFolder).collect {item->
+                    imageState.loadedImages.add(item)
+
+                  }
+                //imageState.loadedImages.addAll(allImages)
+
             } catch (e: Exception) {
 
                 imageState.sendNotification(
@@ -69,14 +87,20 @@ fun FolderPicker(imageState: ImageState) {
             }
 
         }
+        imageLoadingJob = job
 
     }
+
+
+
+
     Column(
         Modifier.fillMaxWidth().fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
 
+        Text("Loading Photos... ${imageState.loadedImages.size} of ${imageState.totalImagesToLoad} ", color = Color.White, modifier = Modifier.padding(20.dp))
         Button(
             onClick = {
                 pickFolder()
@@ -98,5 +122,21 @@ fun FolderPicker(imageState: ImageState) {
             }
         }
 
+        // show this button only if image loading is ongoing
+        if (imageState.loadedImages.size != imageState.totalImagesToLoad) {
+
+            AppButton(
+                label = "Cancel Operation",
+                onclick = {
+
+                    scope.launch(Dispatchers.IO) {
+                        imageLoadingJob?.cancel("operation cancelled")
+                        imageState.sendNotification("Image loading operation cancelled")
+                        imageState.loadedImages.clear()
+                        imageState.totalImagesToLoad = 0
+                    }
+                }
+            )
+        }
     }
 }

@@ -17,6 +17,7 @@ class ImageState {
     var isDialogVisible by mutableStateOf(false)
     var isNotificationVisible =  mutableStateOf(false)
     var notification by  mutableStateOf(Notification())
+    var totalImagesToLoad by mutableStateOf(0)
 
 
     suspend fun addImageToSelections(index: Int) {

@@ -33,7 +33,7 @@ fun FullImagePreview(imagesState: ImageState) {
     }
 
     Text("images are --- ${imagesState.loadedImages.size}")
-    if (imagesState.loadedImages.size != 0) {
+    if ((imagesState.loadedImages.size != 0) && (imagesState.loadedImages.size == imagesState.totalImagesToLoad)) {
         Image(
             painter = BitmapPainter(imagesState.loadedImages[imagesState.currentIndex].raw),
             contentDescription = "contentDescription",
