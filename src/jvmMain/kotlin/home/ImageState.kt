@@ -15,6 +15,7 @@ class ImageState {
     val selectedImages = mutableStateListOf<LoadedImages>()
     var currentIndex by mutableStateOf(0)
     var isDialogVisible by mutableStateOf(false)
+    var isNotificationVisible = remember { mutableStateOf(false) }
 
 
     fun addImageToSelections(index: Int) {

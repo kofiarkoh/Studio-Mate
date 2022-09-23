@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import components.AppNotification
 import components.FolderNameDialog
 import java.io.File
 import java.nio.file.Files
@@ -83,6 +84,7 @@ fun HomeLayout() {
         }
     }
     FolderNameDialog(imagesState)
+    AppNotification(imagesState)
 
 }
 
