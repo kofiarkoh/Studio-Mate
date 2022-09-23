@@ -63,6 +63,7 @@ class ImageState {
 
                 selectedImages.clear()
                 folderToSaveName = ""
+                sendNotification("Photos has been saved successfully")
             }
             catch (e:Exception){
                 sendNotification(
