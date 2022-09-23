@@ -22,11 +22,11 @@ suspend fun loadImagesFromDirectory(
 
     val job = scope.launch {
 
-        listOfFiles.forEachIndexed(){index ,it->
+        listOfFiles.forEachIndexed() { index, it ->
             println("found file ${it.absoluteFile}")
 
 
-            if(index%9  == 0){
+            if (index % 9 == 0) {
                 launch(Dispatchers.IO) {
                     if (it.absolutePath.endsWith(".CR2") || it.absolutePath.endsWith(".jpg")) {
                         println(it.absolutePath)
@@ -45,22 +45,22 @@ suspend fun loadImagesFromDirectory(
                         }
                     }
                 }
-            }else{
+            } else {
 
-                    println(it.absolutePath)
-                    withContext(Dispatchers.IO) {
-                        val resizedImage = ImageConverter.getThumbnail(it)
-                        val im = loadImageBitmap(it)
+                println(it.absolutePath)
+                withContext(Dispatchers.IO) {
+                    val resizedImage = ImageConverter.getThumbnail(it)
+                    val im = loadImageBitmap(it)
 
-                        imageBitmaps.add(
-                            LoadedImages(
-                                resizedImage,
-                                im, fileName = it.name.replace("_PreviewImage.jpg", ""),
-                                fileExt = it.extension,
-                                filePath = it.absolutePath
-                            )
+                    imageBitmaps.add(
+                        LoadedImages(
+                            resizedImage,
+                            im, fileName = it.name.replace("_PreviewImage.jpg", ""),
+                            fileExt = it.extension,
+                            filePath = it.absolutePath
                         )
-                    }
+                    )
+                }
             }
 
         }

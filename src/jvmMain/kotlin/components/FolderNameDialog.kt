@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 import home.ImageState
 
 @Composable
-fun FolderNameDialog(imageState: ImageState){
+fun FolderNameDialog(imageState: ImageState) {
 
     val scope = rememberCoroutineScope()
 
@@ -26,17 +26,19 @@ fun FolderNameDialog(imageState: ImageState){
             modifier = Modifier.fillMaxWidth().fillMaxHeight().background(Color.Black.copy(.4f))
 
         ) {
-            Card(modifier= Modifier.size(300.dp,200.dp)) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally,
+            Card(modifier = Modifier.size(300.dp, 200.dp)) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier.padding(10.dp).fillMaxWidth().fillMaxHeight()
                 ) {
-                    Text(text ="Enter folder name",
+                    Text(
+                        text = "Enter folder name",
                         fontSize = 20.sp,
                         modifier = Modifier.padding(vertical = 10.dp),
                         fontWeight = FontWeight.Black
                     )
-                    TextField(value = imageState.folderToSaveName, onValueChange = {imageState.folderToSaveName = it})
+                    TextField(value = imageState.folderToSaveName, onValueChange = { imageState.folderToSaveName = it })
 
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -45,12 +47,12 @@ fun FolderNameDialog(imageState: ImageState){
                     ) {
                         TextButton(onClick = {
                             imageState.isDialogVisible = false
-                        }){
+                        }) {
                             Text("CANCEL")
                         }
                         Button(onClick = {
                             imageState.saveSelections(scope)
-                        }){
+                        }) {
                             Text("SUBMIT")
                         }
                     }

@@ -2,7 +2,6 @@ package home
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
@@ -11,7 +10,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,9 +48,10 @@ fun RightSideBar(imagesState: ImageState) {
             modifier = Modifier.weight(.7f)
         ) {
             itemsIndexed(imagesState.selectedImages) { i, item ->
-                Card(modifier = Modifier.padding(10.dp), elevation = 5.dp,
+                Card(
+                    modifier = Modifier.padding(10.dp), elevation = 5.dp,
                     backgroundColor = Color.Transparent,
-                    border = BorderStroke(1.dp,Color.White),
+                    border = BorderStroke(1.dp, Color.White),
                     shape = RoundedCornerShape(10.dp)
                 ) {
                     Row(

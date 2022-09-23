@@ -61,7 +61,7 @@ fun FolderPicker(imageState: ImageState) {
             onClick = {
                 pickFolder()
             },
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color(51,51,51)),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color(51, 51, 51)),
 
             border = BorderStroke(0.dp, Color.Transparent)
         ) {

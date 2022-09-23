@@ -6,7 +6,7 @@ class ImageHandler {
 
 }
 
-fun copySelectedImagesToDisk(selectedImages:List<LoadedImages>,sourceDir:String,folderToSave:String){
+fun copySelectedImagesToDisk(selectedImages: List<LoadedImages>, sourceDir: String, folderToSave: String) {
 
     val destDir = "/Users/lawrence/Pictures/StudioMate";
 
@@ -14,8 +14,8 @@ fun copySelectedImagesToDisk(selectedImages:List<LoadedImages>,sourceDir:String,
         val destPath = "${destDir}/${folderToSave}/${it.fileName}.CR2"
         val sourceFilePath = "${sourceDir}/${it.fileName}.CR2"
 
-        File(sourceFilePath).copyTo(File(destPath),overwrite = true)
-        println(destPath+"-----"+ sourceFilePath)
+        File(sourceFilePath).copyTo(File(destPath), overwrite = true)
+        println(destPath + "-----" + sourceFilePath)
     }
 
 }

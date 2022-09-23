@@ -1,7 +1,6 @@
 package home
 
 import androidx.compose.runtime.*
-import androidx.compose.ui.graphics.ImageBitmap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,44 +17,43 @@ class ImageState {
     var isDialogVisible by mutableStateOf(false)
 
 
-    fun addImageToSelections(index:Int){
-        if(loadedImages.isEmpty()){
+    fun addImageToSelections(index: Int) {
+        if (loadedImages.isEmpty()) {
             return
         }
         val selectedImage = loadedImages[index]
         //check if image is already selected
         val isSelected = selectedImages.contains(selectedImage)
-        if(isSelected){
+        if (isSelected) {
 
-        }
-        else{
+        } else {
             selectedImages.add(selectedImage)
         }
 
     }
 
-    fun removeImageFromSelections(index: Int){
+    fun removeImageFromSelections(index: Int) {
         selectedImages.removeAt(index)
     }
 
-    fun saveSelections(scope:CoroutineScope){
+    fun saveSelections(scope: CoroutineScope) {
 
         // hide dialog first
         isDialogVisible = false
         scope.launch(Dispatchers.IO) {
-            copySelectedImagesToDisk(selectedImages,imagesDirectory,folderToSaveName)
+            copySelectedImagesToDisk(selectedImages, imagesDirectory, folderToSaveName)
 
             selectedImages.clear()
             folderToSaveName = ""
         }
     }
 
-    fun setIndexBySelectedImage(image: LoadedImages){
+    fun setIndexBySelectedImage(image: LoadedImages) {
         currentIndex = loadedImages.indexOf(image)
 
     }
 
-    fun onCopySucess(){
+    fun onCopySucess() {
 
     }
 }
