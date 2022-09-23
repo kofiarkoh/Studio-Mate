@@ -21,11 +21,14 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import util.DsStoreFileFilter
 import util.loadImagesFromDirectory
 import util.loadImagesFromDirectoryWithFlow
 import java.io.File
 import javax.swing.JFileChooser
 import javax.swing.UIManager
+import kotlin.io.path.Path
+import kotlin.io.path.listDirectoryEntries
 
 @Composable
 fun FolderPicker(imageState: ImageState) {
@@ -64,7 +67,7 @@ fun FolderPicker(imageState: ImageState) {
              */
             try {
                 //get num of files in dir
-                val numOfFiles = selectedDir.listFiles().size - 1
+                val numOfFiles = selectedDir.listFiles(DsStoreFileFilter()).size
                 imageState.totalImagesToLoad = numOfFiles
                 val process: Process? = runCMD(selectedDir.absolutePath)
                 process?.waitFor()
