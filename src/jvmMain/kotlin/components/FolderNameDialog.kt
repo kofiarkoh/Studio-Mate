@@ -1,7 +1,6 @@
 package components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -9,6 +8,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -19,13 +19,14 @@ fun FolderNameDialog(imageState: ImageState) {
 
     val scope = rememberCoroutineScope()
 
-    AnimatedVisibility(imageState.isDialogVisible) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth().fillMaxHeight().background(Color.Black.copy(.4f))
 
-        ) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxWidth().fillMaxHeight()//.background(Color.Black.copy(.4f))
+
+    ) {
+        AnimatedVisibility(imageState.isDialogVisible) {
             Card(modifier = Modifier.size(300.dp, 200.dp)) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -36,9 +37,16 @@ fun FolderNameDialog(imageState: ImageState) {
                         text = "Enter folder name",
                         fontSize = 20.sp,
                         modifier = Modifier.padding(vertical = 10.dp),
-                        fontWeight = FontWeight.Black
+                        fontWeight = FontWeight.Light
                     )
-                    TextField(value = imageState.folderToSaveName, onValueChange = { imageState.folderToSaveName = it })
+                    TextField(
+                        value = imageState.folderToSaveName,
+                        onValueChange = { imageState.folderToSaveName = it },
+                        placeholder = { Text("type here") },
+                        singleLine = true,
+                        colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent),
+                        textStyle = TextStyle(fontSize = 20.sp),
+                    )
 
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -48,13 +56,18 @@ fun FolderNameDialog(imageState: ImageState) {
                         TextButton(onClick = {
                             imageState.isDialogVisible = false
                         }) {
-                            Text("CANCEL")
+                            Text("CANCEL", color = Color.Black)
                         }
-                        Button(onClick = {
-                            imageState.saveSelections(scope)
-                        }) {
-                            Text("SUBMIT")
-                        }
+
+
+                        AppButton(
+                            "Submit",
+                            onclick = {
+                                imageState.saveSelections(scope)
+                            },
+                            borderColor = Color.Black
+                        )
+
                     }
 
                 }

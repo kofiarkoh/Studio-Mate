@@ -28,26 +28,46 @@ fun FolderPicker(imageState: ImageState) {
 
     fun pickFolder() {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
-        val fileChooser = JFileChooser("/Users/lawrence/Pictures/Law").apply {
+        val fileChooser = JFileChooser(System.getProperty("user.home","/")).apply {
             fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
             dialogTitle = "Select a folder"
             approveButtonText = "Select"
             approveButtonToolTipText = "Select current directory"
         }
         fileChooser.showOpenDialog(null)
+
+
         val selectedDir = fileChooser.selectedFile
 
+        if (selectedDir == null) {
+            scope.launch {
+                imageState.sendNotification("You did not select a valid directory")
+            }
+            // cancel operation
+            return
+        }
+
+        // directory pick successfull
         imageState.imagesDirectory = selectedDir.absolutePath
 
         scope.launch(Dispatchers.IO) {
             /* generate previews using exiftool CLI
                 and wait for process to finish before reading from cache directory
              */
-            val process: Process? = runCMD(selectedDir.absolutePath)
-            process?.waitFor()
+            try {
+                val process: Process? = runCMD(selectedDir.absolutePath)
+                process?.waitFor()
 
-            val allImages = loadImagesFromDirectory(scope, imageState.cacheFolder)
-            imageState.loadedImages.addAll(allImages)
+                val allImages = loadImagesFromDirectory(scope, imageState.cacheFolder)
+                imageState.loadedImages.addAll(allImages)
+            } catch (e: Exception) {
+
+                imageState.sendNotification(
+                    e.message ?: "An error error occured while running command to process files"
+                )
+
+            }
+
         }
 
     }

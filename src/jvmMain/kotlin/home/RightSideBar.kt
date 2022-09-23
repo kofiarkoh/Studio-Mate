@@ -11,6 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,10 +19,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import components.AppButton
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RightSideBar(imagesState: ImageState) {
+
+    val scope = rememberCoroutineScope();
     Column(
         modifier = Modifier.padding(horizontal = 0.dp).fillMaxWidth()
 
@@ -88,10 +92,18 @@ fun RightSideBar(imagesState: ImageState) {
         ) {
 
             AppButton(onclick = {
-                imagesState.addImageToSelections(imagesState.currentIndex)
+                scope.launch {
+                    imagesState.addImageToSelections(imagesState.currentIndex)
+                }
             }, label = "Select")
             AppButton(onclick = {
                 // display folder name dialog
+                if (imagesState.selectedImages.isEmpty()) {
+                    scope.launch {
+                       // imagesState.sendNotification("You have not selected any photos yet!")
+                    }
+                  //  return@AppButton
+                }
                 imagesState.isDialogVisible = true
             }, label = "Save")
             AppButton(onclick = {

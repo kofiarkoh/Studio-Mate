@@ -10,18 +10,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun AppButton(label: String, onclick: () -> Unit) {
+fun AppButton(
+    label: String,
+    onclick: () -> Unit,
+    borderColor :Color = Color(255, 255, 255)
+) {
 
     OutlinedButton(
         onClick = onclick,
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
-        border = BorderStroke(1.dp, Color(255, 255, 255)),
+        border = BorderStroke(1.dp, borderColor),
         shape = RoundedCornerShape(40.dp),
         // modifier = Modifier.height(30.dp)
 
     ) {
 
-        Text(label, color = Color.White)
+        Text(label, color = borderColor)
     }
 
 

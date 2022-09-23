@@ -1,24 +1,25 @@
 package home
 
 import androidx.compose.runtime.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import components.Notification
+import kotlinx.coroutines.*
 import util.LoadedImages
 import util.copySelectedImagesToDisk
+import kotlin.coroutines.coroutineContext
 
 class ImageState {
     val cacheFolder = "/Users/lawrence/Pictures/Law/mycache"
     var imagesDirectory by mutableStateOf("/Users/lawrence/Pictures/Law/test3")
-    var folderToSaveName by mutableStateOf("Lawrence")
+    var folderToSaveName by mutableStateOf("")
     val loadedImages = mutableStateListOf<LoadedImages>()
     val selectedImages = mutableStateListOf<LoadedImages>()
     var currentIndex by mutableStateOf(0)
     var isDialogVisible by mutableStateOf(false)
-    var isNotificationVisible = remember { mutableStateOf(false) }
+    var isNotificationVisible =  mutableStateOf(false)
+    var notification by  mutableStateOf(Notification())
 
 
-    fun addImageToSelections(index: Int) {
+    suspend fun addImageToSelections(index: Int) {
         if (loadedImages.isEmpty()) {
             return
         }
@@ -26,7 +27,7 @@ class ImageState {
         //check if image is already selected
         val isSelected = selectedImages.contains(selectedImage)
         if (isSelected) {
-
+            sendNotification("The current photo has been already selected.")
         } else {
             selectedImages.add(selectedImage)
         }
@@ -39,13 +40,36 @@ class ImageState {
 
     fun saveSelections(scope: CoroutineScope) {
 
+        // validate folder name
+        val folderNameRegex = Regex("\\W")
+        if(folderNameRegex.matches(folderToSaveName)){
+            scope.launch {
+                sendNotification("Folder name can only be letters and numbers.")
+            }
+            return
+        }
+        if(folderToSaveName.length < 2) {
+            scope.launch {
+                sendNotification("Folder name must be at least 2 characters.")
+            }
+            return
+        }
+
         // hide dialog first
         isDialogVisible = false
         scope.launch(Dispatchers.IO) {
-            copySelectedImagesToDisk(selectedImages, imagesDirectory, folderToSaveName)
+            try {
+                copySelectedImagesToDisk(selectedImages, imagesDirectory, folderToSaveName)
 
-            selectedImages.clear()
-            folderToSaveName = ""
+                selectedImages.clear()
+                folderToSaveName = ""
+            }
+            catch (e:Exception){
+                sendNotification(
+                    e.message ?: "Photos could not be saved to disk."
+                )
+            }
+
         }
     }
 
@@ -55,6 +79,21 @@ class ImageState {
     }
 
     fun onCopySucess() {
+
+    }
+
+    suspend fun sendNotification(msg:String){
+        /* set and hide notification after 5 seconds
+        * */
+        coroutineScope {
+            launch(Dispatchers.IO) {
+
+                notification = Notification(message = msg)
+                isNotificationVisible.value = true
+                delay(5000L)
+                isNotificationVisible.value = false
+            }
+        }
 
     }
 }
