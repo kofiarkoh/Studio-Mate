@@ -30,9 +30,9 @@ jobs:
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
-        arguments: createDistributable
+        arguments: packageMsi
 
-    - name: Sync files
+    - name: upload to cpanel
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
       with:
         server: ftp.westernpixels.com
