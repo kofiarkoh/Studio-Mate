@@ -27,6 +27,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
+                implementation("net.coobird:thumbnailator:0.4.17")
             }
         }
         val jvmTest by getting
