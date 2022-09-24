@@ -31,15 +31,12 @@ jobs:
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: createDistributable
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: uploadwindowsbuild
-        path: build\compose\binaries\main\app\StudioMate
-    - name: Download a single artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: my-artifact
-        path: build\compose\binaries\main\app\StudioMate
-    - name: Display structure of downloaded files
-      run: ls -R
+
+    - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.3.2
+        with:
+          server: ftp.westernpixels.com
+          username: 'studiomate@westernpixels.come'
+          password: '$C{9#DqCu3NP'
+          local-dir: ./build/compose/binaries/main/app/
+
