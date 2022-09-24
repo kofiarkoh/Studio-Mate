@@ -32,11 +32,11 @@ jobs:
       with:
         arguments: createDistributable
 
-    - name: 📂 Sync files
-        uses: SamKirkland/FTP-Deploy-Action@4.3.2
-        with:
-          server: ftp.westernpixels.com
-          username: 'studiomate@westernpixels.come'
-          password: '$C{9#DqCu3NP'
-          local-dir: ./build/compose/binaries/main/app/
+    - name: Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.2
+      with:
+        server: ftp.westernpixels.com
+        username: 'studiomate@westernpixels.com'
+        password: '$C{9#DqCu3NP'
+        local-dir: ./build/compose/binaries/main/app/
 
