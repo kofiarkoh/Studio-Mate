@@ -37,6 +37,7 @@ jobs:
         # Artifact name
         name: studiomateWindowsBuild
         # Destination path
+        path: './build/compose/binaries/main/app'
         
     - name: Display structure of downloaded files
       run: ls -R
