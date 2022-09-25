@@ -7,7 +7,7 @@ import util.LoadedImages
 import util.copySelectedImagesToDisk
 
 class ImageState {
-    val cacheFolder = "/Users/lawrence/Pictures/Law/mycache"
+    val cacheFolder = "${ System.getProperty("user.home","/")}/Pictures/StudioMate/cache/" //"/Users/lawrence/Pictures/Law/mycache"
     var imagesDirectory by mutableStateOf("/Users/lawrence/Pictures/Law/test3")
     var folderToSaveName by mutableStateOf("")
     val loadedImages = mutableStateListOf<LoadedImages>()

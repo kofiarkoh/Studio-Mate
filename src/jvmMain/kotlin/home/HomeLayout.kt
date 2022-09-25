@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import components.AppNotification
@@ -90,13 +91,18 @@ fun HomeLayout() {
 
 
 fun runCMD(sourceDir: String): Process? {
-    val cache = "/Users/lawrence/Pictures/Law/mycache"
+    val cache = "${ System.getProperty("user.home","/")}/Pictures/StudioMate/cache/" // "/Users/lawrence/Pictures/Law/mycache"
     val dir = "/Users/lawrence/Pictures/Law/test3"
+    // create cach dir if not exist
+    val cacheDir = File(cache)
+    if(!cacheDir.exists()){
+        Files.createDirectory(kotlin.io.path.Path(cache))
+    }
     Files.walk(File(cache).toPath())
         .filter { Files.isRegularFile(it) }
         .map { it.toFile() }
         .forEach { it.delete() }
-    val cmd = "exiftool -a -b -W /Users/lawrence/Pictures/Law/mycache/%f_%t%-c.%s -preview:PreviewImage ${sourceDir}";
+    val cmd = "exiftool -a -b -W ${cache}%f_%t%-c.%s -preview:PreviewImage ${sourceDir}";
     println(cmd)
     println("command run finish")
     return Runtime.getRuntime().exec(cmd)

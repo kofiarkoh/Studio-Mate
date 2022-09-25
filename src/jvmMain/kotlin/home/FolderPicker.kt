@@ -79,6 +79,7 @@ fun FolderPicker(imageState: ImageState) {
 
             } catch (e: Exception) {
 
+                println("an error has occured ${e.cause} ${e.message} ${e.localizedMessage}")
                 imageState.sendNotification(
                     e.message ?: "An error error occured while running command to process files"
                 )
