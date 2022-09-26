@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -60,7 +61,7 @@ fun FullImagePreview(imagesState: ImageState) {
                 )
             }
             Image(
-                painter = painterResource("folder.png"), // BitmapPainter(imagesState.loadedImages[imagesState.currentIndex].raw),
+                painter =  BitmapPainter(imagesState.loadedImages[imagesState.currentIndex].raw),
                 contentDescription = "contentDescription",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.width(500.dp).rotate(imagePosition).clip(RoundedCornerShape(5.dp))
